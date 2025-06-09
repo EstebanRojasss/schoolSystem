@@ -1,11 +1,11 @@
 package com.schoolSystem.entities;
 
 import java.time.LocalDate;
+import java.util.Set;
 
-public class Estudiante extends Persona{
+public class Estudiante extends Persona {
     private Estado estado;
     private LocalDate fechaInscripcion;
-
     private Usuario usuario;
 
     public Estudiante(Long id, String nombre, String apellido, String numeroDocumento, LocalDate fechaNacimiento, String direccion, String telefono, String email, Estado estado, LocalDate fechaInscripcion, Usuario usuario) {
