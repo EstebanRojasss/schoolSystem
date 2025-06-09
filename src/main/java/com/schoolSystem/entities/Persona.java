@@ -1,8 +1,15 @@
 package com.schoolSystem.entities;
 
-import java.time.LocalDate;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.MappedSuperclass;
 
+import java.time.LocalDate;
+@MappedSuperclass
 public abstract class Persona {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String nombre;
     private String apellido;
