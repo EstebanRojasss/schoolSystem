@@ -1,6 +1,9 @@
 package com.schoolSystem.entities;
 
-import java.time.LocalDate;
+import com.schoolSystem.entities.rol.Rol;
+
+import java.time.LocalDate;git s
+import java.util.Set;
 
 public class Usuario {
     private final Long id;
@@ -10,6 +13,8 @@ public class Usuario {
     private LocalDate fechaRegistro;
     private Estado estado;
 
+    private Set<Rol> roles;
+
     public Usuario(Long id, String nombreUsuario, String contrasenha, String email, LocalDate fechaRegistro, Estado estado) {
         this.id = id;
         this.nombreUsuario = nombreUsuario;
@@ -18,6 +23,7 @@ public class Usuario {
         this.fechaRegistro = fechaRegistro;
         this.estado = estado;
     }
+
 
     public Long getId() {
         return id;
@@ -61,6 +67,18 @@ public class Usuario {
 
     public void setEstado(Estado estado) {
         this.estado = estado;
+    }
+
+    public Set<Rol> getRoles() {
+        return roles;
+    }
+
+    public void setRoles(Set<Rol> roles) {
+        this.roles = roles;
+    }
+
+    public void addRole(Rol rol){
+        this.roles.add(rol);
     }
 
 
