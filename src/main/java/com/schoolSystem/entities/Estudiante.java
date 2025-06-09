@@ -31,5 +31,5 @@ public class Estudiante extends Persona{
         this.fechaInscripcion = fechaInscripcion;
     }
 
-    
+
 }
