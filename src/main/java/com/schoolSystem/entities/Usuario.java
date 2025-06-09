@@ -6,12 +6,16 @@ import java.time.LocalDate;
 import java.util.Set;
 
 public class Usuario {
+
     private final Long id;
     private String nombreUsuario;
     private String contrasenha;
     private String email;
     private LocalDate fechaRegistro;
     private Estado estado;
+
+    private Estudiante estudiante;
+    private Docente docente;
 
     private Set<Rol> roles;
 
