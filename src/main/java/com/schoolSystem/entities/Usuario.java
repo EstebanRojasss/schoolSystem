@@ -2,7 +2,7 @@ package com.schoolSystem.entities;
 
 import com.schoolSystem.entities.rol.Rol;
 
-import java.time.LocalDate;git s
+import java.time.LocalDate;
 import java.util.Set;
 
 public class Usuario {
