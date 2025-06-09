@@ -4,6 +4,7 @@ import java.time.LocalDate;
 
 public class Docente extends Persona{
     private Estado estado;
+    private Usuario usuario;
 
     public Docente(Long id, String nombre, String apellido, String numeroDocumento, LocalDate fechaNacimiento, String direccion, String telefono, String email, Estado estado) {
         super(id, nombre, apellido, numeroDocumento, fechaNacimiento, direccion, telefono, email);
