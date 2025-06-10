@@ -14,25 +14,25 @@ public class Docente extends Persona {
 
     @OneToOne
     @JoinColumn(name = "usuario", unique = true, nullable = false)
-    private Usuario usuario;
+    private Usuario idUsuario;
 
 
-    public Docente(Long id, String nombre, String apellido, String numeroDocumento, LocalDate fechaNacimiento, String direccion, String telefono, String email, Estado estado, Usuario usuario) {
+    public Docente(Long id, String nombre, String apellido, String numeroDocumento, LocalDate fechaNacimiento, String direccion, String telefono, String email, Estado estado, Usuario idUsuario) {
         super(id, nombre, apellido, numeroDocumento, fechaNacimiento, direccion, telefono, email);
         this.estado = estado;
-        this.usuario = usuario;
+        this.idUsuario = idUsuario;
     }
 
     public Docente() {
 
     }
 
-    public Usuario getUsuario() {
-        return usuario;
+    public Usuario getIdUsuario() {
+        return idUsuario;
     }
 
-    public void setUsuario(Usuario usuario) {
-        this.usuario = usuario;
+    public void setIdUsuario(Usuario idUsuario) {
+        this.idUsuario = idUsuario;
     }
 
     public Estado getEstado() {
