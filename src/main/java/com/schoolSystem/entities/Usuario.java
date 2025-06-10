@@ -1,22 +1,37 @@
 package com.schoolSystem.entities;
 
 import com.schoolSystem.entities.rol.Rol;
+import jakarta.persistence.*;
 
 import java.time.LocalDate;
 import java.util.Set;
 
 public class Usuario {
 
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private final Long id;
+    @Column(name = "nombre_usuario")
     private String nombreUsuario;
+    @Column(name = "contrasenha")
     private String contrasenha;
+    @Column(name = "email")
     private String email;
+    @Column(name = "fecha_registro")
     private LocalDate fechaRegistro;
+    @Enumerated(EnumType.STRING)
     private Estado estado;
-
+    @Enumerated(EnumType.STRING)
     private Estudiante estudiante;
+    @Enumerated(EnumType.STRING)
     private Docente docente;
 
+    @ManyToMany(fetch = FetchType.EAGER)
+    @JoinTable(
+            name = "usuario_rol",
+            joinColumns = @JoinColumn(name = "usuario_id"),
+            inverseJoinColumns = @JoinColumn(name = "rol_id")
+    )
     private Set<Rol> roles;
 
     public Usuario(Long id, String nombreUsuario, String contrasenha, String email, LocalDate fechaRegistro, Estado estado) {
