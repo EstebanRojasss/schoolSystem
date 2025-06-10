@@ -1,11 +1,18 @@
 package com.schoolSystem.entities;
 
+import jakarta.persistence.*;
+
 import java.time.LocalDate;
 import java.util.Set;
 
 public class Estudiante extends Persona {
+    @Enumerated(EnumType.STRING)
     private Estado estado;
+
     private LocalDate fechaInscripcion;
+
+    @OneToOne
+    @JoinColumn(name = "usuario", unique = true, nullable = false)
     private Usuario usuario;
 
     public Estudiante(Long id, String nombre, String apellido, String numeroDocumento, LocalDate fechaNacimiento, String direccion, String telefono, String email, Estado estado, LocalDate fechaInscripcion, Usuario usuario) {
