@@ -21,9 +21,9 @@ public class Usuario {
     private LocalDate fechaRegistro;
     @Enumerated(EnumType.STRING)
     private Estado estado;
-    @Enumerated(EnumType.STRING)
+    @OneToOne(mappedBy = "usuario", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private Estudiante estudiante;
-    @Enumerated(EnumType.STRING)
+    @OneToOne(mappedBy = "usuario", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private Docente docente;
 
     @ManyToMany(fetch = FetchType.EAGER)
