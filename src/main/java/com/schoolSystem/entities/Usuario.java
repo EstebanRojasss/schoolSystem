@@ -9,7 +9,6 @@ import java.util.Set;
 @Entity
 @Table(name = "usuario")
 public class Usuario {
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private final Long id;
@@ -101,7 +100,5 @@ public class Usuario {
     public void addRole(Rol rol){
         this.roles.add(rol);
     }
-
-
 
 }
