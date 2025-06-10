@@ -3,6 +3,7 @@ package com.schoolSystem.entities;
 import jakarta.persistence.*;
 
 @Entity
+@Table(name = "calificacion")
 public class Calificacion {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

@@ -1,12 +1,10 @@
 package com.schoolSystem.entities;
 
-import jakarta.persistence.EnumType;
-import jakarta.persistence.Enumerated;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.OneToOne;
+import jakarta.persistence.*;
 
 import java.time.LocalDate;
-
+@Entity
+@Table(name = "docente")
 public class Docente extends Persona {
 
     @Enumerated(EnumType.STRING)

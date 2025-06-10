@@ -3,7 +3,8 @@ package com.schoolSystem.entities;
 import jakarta.persistence.*;
 
 import java.time.LocalDate;
-
+@Entity
+@Table(name = "estudiante")
 public class Estudiante extends Persona {
     @Enumerated(EnumType.STRING)
     private Estado estado;
