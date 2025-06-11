@@ -3,6 +3,8 @@ package com.schoolSystem.entities;
 import jakarta.persistence.*;
 
 import java.time.LocalDate;
+import java.util.Set;
+
 @Entity
 @Table(name = "estudiante")
 public class Estudiante extends Persona {
@@ -15,13 +17,29 @@ public class Estudiante extends Persona {
     @JoinColumn(name = "usuario", unique = true, nullable = false)
     private Usuario idUsuario;
 
-    public Estudiante(Long id, String nombre, String apellido, String numeroDocumento, LocalDate fechaNacimiento, String direccion, String telefono, String email, Estado estado, LocalDate fechaInscripcion, Usuario idUsuario) {
+    @ManyToMany
+    @JoinTable(
+            name = "estudiante_curso",
+            joinColumns = @JoinColumn(name = "estudiante_id"),
+            inverseJoinColumns = @JoinColumn(name = "curso_id")
+    )
+    private Set<Curso> cursos;
+
+    public Estudiante(Long id, String nombre, String apellido, String numeroDocumento, LocalDate fechaNacimiento, String direccion, String telefono, String email, Estado estado, LocalDate fechaInscripcion, Usuario idUsuario, Set<Curso> cursos) {
         super(id, nombre, apellido, numeroDocumento, fechaNacimiento, direccion, telefono, email);
         this.estado = estado;
         this.fechaInscripcion = fechaInscripcion;
         this.idUsuario = idUsuario;
+        this.cursos = cursos;
     }
 
+    public Set<Curso> getCursos() {
+        return cursos;
+    }
+
+    public void setCursos(Set<Curso> cursos) {
+        this.cursos = cursos;
+    }
 
     public Estudiante() {
 
