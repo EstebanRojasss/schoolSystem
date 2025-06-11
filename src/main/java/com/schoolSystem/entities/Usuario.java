@@ -6,8 +6,9 @@ import jakarta.persistence.*;
 import java.time.LocalDate;
 import java.util.Set;
 
+@Entity
+@Table(name = "usuario")
 public class Usuario {
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private final Long id;
@@ -21,9 +22,10 @@ public class Usuario {
     private LocalDate fechaRegistro;
     @Enumerated(EnumType.STRING)
     private Estado estado;
-    @OneToOne(mappedBy = "usuario", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+
+    @OneToOne(mappedBy = "idUsuario", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private Estudiante estudiante;
-    @OneToOne(mappedBy = "usuario", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @OneToOne(mappedBy = "idUsuario", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private Docente docente;
 
     @ManyToMany(fetch = FetchType.EAGER)
@@ -99,7 +101,5 @@ public class Usuario {
     public void addRole(Rol rol){
         this.roles.add(rol);
     }
-
-
 
 }

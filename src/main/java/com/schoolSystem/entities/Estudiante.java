@@ -5,6 +5,8 @@ import jakarta.persistence.*;
 import java.time.LocalDate;
 import java.util.Set;
 
+@Entity
+@Table(name = "estudiante")
 public class Estudiante extends Persona {
     @Enumerated(EnumType.STRING)
     private Estado estado;
@@ -13,13 +15,30 @@ public class Estudiante extends Persona {
 
     @OneToOne
     @JoinColumn(name = "usuario", unique = true, nullable = false)
-    private Usuario usuario;
+    private Usuario idUsuario;
 
-    public Estudiante(Long id, String nombre, String apellido, String numeroDocumento, LocalDate fechaNacimiento, String direccion, String telefono, String email, Estado estado, LocalDate fechaInscripcion, Usuario usuario) {
+    @ManyToMany
+    @JoinTable(
+            name = "estudiante_curso",
+            joinColumns = @JoinColumn(name = "estudiante_id"),
+            inverseJoinColumns = @JoinColumn(name = "curso_id")
+    )
+    private Set<Curso> cursos;
+
+    public Estudiante(Long id, String nombre, String apellido, String numeroDocumento, LocalDate fechaNacimiento, String direccion, String telefono, String email, Estado estado, LocalDate fechaInscripcion, Usuario idUsuario, Set<Curso> cursos) {
         super(id, nombre, apellido, numeroDocumento, fechaNacimiento, direccion, telefono, email);
         this.estado = estado;
         this.fechaInscripcion = fechaInscripcion;
-        this.usuario = usuario;
+        this.idUsuario = idUsuario;
+        this.cursos = cursos;
+    }
+
+    public Set<Curso> getCursos() {
+        return cursos;
+    }
+
+    public void setCursos(Set<Curso> cursos) {
+        this.cursos = cursos;
     }
 
 
@@ -43,11 +62,11 @@ public class Estudiante extends Persona {
         this.fechaInscripcion = fechaInscripcion;
     }
 
-    public Usuario getUsuario() {
-        return usuario;
+    public Usuario getIdUsuario() {
+        return idUsuario;
     }
 
-    public void setUsuario(Usuario usuario) {
-        this.usuario = usuario;
+    public void setIdUsuario(Usuario idUsuario) {
+        this.idUsuario = idUsuario;
     }
 }

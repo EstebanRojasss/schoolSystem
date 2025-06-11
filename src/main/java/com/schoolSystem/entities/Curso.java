@@ -1,8 +1,16 @@
 package com.schoolSystem.entities;
 
+import jakarta.persistence.*;
+
+@Entity
+@Table(name = "curso")
 public class Curso {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private final Long id;
+    @Column(name = "nombre_curso")
     private String nombreCurso;
+    @Column(name = "creditos")
     private Short creditos;
 
     public Curso(Long id, String nombreCurso, Short creditos) {
