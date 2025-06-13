@@ -35,15 +35,12 @@ public class UsuarioService {
         Usuario usuarioActual = usuarioRepository.findById(usuario.getId())
                 .orElseThrow( () -> new UserNotFoundException("El usuario ingresado no existe"));
 
-        Set<Rol> addRoles = new HashSet<>();
-
         for (Rol rol : roles) {
             Rol rolActual = rolRepository.findById(rol.getId())
                     .orElseThrow(() -> new RoleNotFound("El rol ingresado no existe"));
-            addRoles.add(rolActual);
+            usuarioActual.addRole(rolActual);
         }
-
-        usuarioActual.setRoles(addRoles);
+        
     }
 
 }
