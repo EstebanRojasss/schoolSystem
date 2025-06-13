@@ -4,6 +4,7 @@ import com.schoolSystem.entities.rol.Rol;
 import jakarta.persistence.*;
 
 import java.time.LocalDate;
+import java.util.HashSet;
 import java.util.Set;
 
 @Entity
@@ -34,7 +35,7 @@ public class Usuario {
             joinColumns = @JoinColumn(name = "usuario_id"),
             inverseJoinColumns = @JoinColumn(name = "rol_id")
     )
-    private Set<Rol> roles;
+    private Set<Rol> roles = new HashSet<>();
 
     public Usuario(Long id, String nombreUsuario, String contrasenha, String email, LocalDate fechaRegistro, Estado estado) {
         this.id = id;
