@@ -1,5 +1,7 @@
 package com.schoolSystem.service;
 
+import com.schoolSystem.dto.UsuarioDto;
+import com.schoolSystem.entities.Estado;
 import com.schoolSystem.entities.Usuario;
 import com.schoolSystem.entities.rol.Rol;
 import com.schoolSystem.exception.RoleNotFound;
@@ -8,11 +10,12 @@ import com.schoolSystem.repository.DocenteRepository;
 import com.schoolSystem.repository.EstudianteRepository;
 import com.schoolSystem.repository.RolRepository;
 import com.schoolSystem.repository.UsuarioRepository;
+import org.springframework.stereotype.Service;
 
-import java.util.HashSet;
+import java.time.LocalDate;
 import java.util.Set;
 
-
+@Service
 public class UsuarioService {
 
     private final UsuarioRepository usuarioRepository;
@@ -31,6 +34,16 @@ public class UsuarioService {
         this.docenteRepository = docenteRepository;
     }
 
+    public void createUser(UsuarioDto usuarioDto){
+        Usuario usuario = new Usuario();
+        usuario.setNombreUsuario( usuarioDto.username() );
+        usuario.setContrasenha( usuarioDto.password() );
+        usuario.setEmail( usuarioDto.email() );
+        matchUser( usuario, usuarioDto.roles() );
+        usuario.setFechaRegistro(LocalDate.now() );
+        usuario.setEstado( Estado.ACTIVO );
+    }
+
     public void matchUser(Usuario usuario, Set<Rol> roles) {
         Usuario usuarioActual = usuarioRepository.findById(usuario.getId())
                 .orElseThrow( () -> new UserNotFoundException("El usuario ingresado no existe"));
@@ -40,7 +53,8 @@ public class UsuarioService {
                     .orElseThrow(() -> new RoleNotFound("El rol ingresado no existe"));
             usuarioActual.addRole(rolActual);
         }
-        
     }
+
+
 
 }
