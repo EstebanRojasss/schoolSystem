@@ -45,6 +45,8 @@ public class Usuario {
         this.estado = estado;
     }
 
+    public Usuario() {
+    }
 
     public Long getId() {
         return id;
