@@ -39,21 +39,18 @@ public class UsuarioService {
         usuario.setNombreUsuario( usuarioDto.username() );
         usuario.setContrasenha( usuarioDto.password() );
         usuario.setEmail( usuarioDto.email() );
-        matchUser( usuario, usuarioDto.roles() );
-        usuario.setFechaRegistro(LocalDate.now() );
-        usuario.setEstado( Estado.ACTIVO );
-    }
 
-    public void matchUser(Usuario usuario, Set<Rol> roles) {
-        Usuario usuarioActual = usuarioRepository.findById(usuario.getId())
-                .orElseThrow( () -> new UserNotFoundException("El usuario ingresado no existe"));
-
-        for (Rol rol : roles) {
+        for (Rol rol : usuarioDto.roles()) {
             Rol rolActual = rolRepository.findById(rol.getId())
                     .orElseThrow(() -> new RoleNotFound("El rol ingresado no existe"));
-            usuarioActual.addRole(rolActual);
+            usuario.addRole(rolActual);
         }
+        usuario.setFechaRegistro(LocalDate.now() );
+        usuario.setEstado( Estado.ACTIVO );
+        usuarioRepository.save(usuario);
     }
+
+    
 
 
 
