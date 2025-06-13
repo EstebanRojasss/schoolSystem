@@ -13,6 +13,7 @@ import com.schoolSystem.repository.UsuarioRepository;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
+import java.util.List;
 import java.util.Set;
 
 @Service
@@ -50,7 +51,11 @@ public class UsuarioService {
         usuarioRepository.save(usuario);
     }
 
-    
+    public List<Usuario> getAllUsers(){
+        return usuarioRepository.findAll();
+    }
+
+
 
 
 
