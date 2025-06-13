@@ -14,7 +14,7 @@ public class Estudiante extends Persona {
     private LocalDate fechaInscripcion;
 
     @OneToOne
-    @JoinColumn(name = "usuario", unique = true, nullable = false)
+    @JoinColumn(name = "idUsuario", unique = true, nullable = false)
     private Usuario idUsuario;
 
     @ManyToMany
