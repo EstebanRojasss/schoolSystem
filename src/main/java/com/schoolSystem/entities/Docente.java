@@ -13,7 +13,7 @@ public class Docente extends Persona {
     private Estado estado;
 
     @OneToOne
-    @JoinColumn(name = "usuario", unique = true, nullable = false)
+    @JoinColumn(name = "idUsuario", unique = true, nullable = false)
     private Usuario idUsuario;
 
     @ManyToMany

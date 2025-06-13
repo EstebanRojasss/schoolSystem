@@ -6,13 +6,16 @@ import jakarta.persistence.*;
 public class Rol {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private final Long id;
+    private  Long id;
     @Enumerated(EnumType.STRING)
     private TipoRol tipoRol;
 
     public Rol(Long id, TipoRol tipoRol) {
         this.id = id;
         this.tipoRol = tipoRol;
+    }
+
+    public Rol() {
     }
 
     public Long getId() {

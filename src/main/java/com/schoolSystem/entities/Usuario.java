@@ -11,7 +11,7 @@ import java.util.Set;
 public class Usuario {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private final Long id;
+    private  Long id;
     @Column(name = "nombre_usuario")
     private String nombreUsuario;
     @Column(name = "contrasenha")
@@ -45,6 +45,8 @@ public class Usuario {
         this.estado = estado;
     }
 
+    public Usuario() {
+    }
 
     public Long getId() {
         return id;
@@ -94,7 +96,7 @@ public class Usuario {
         return roles;
     }
 
-    public void setRoles(Set<Rol> roles) {
+    private void setRoles(Set<Rol> roles) {
         this.roles = roles;
     }
 
