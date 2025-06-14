@@ -17,7 +17,7 @@ public class Usuario {
     private String nombreUsuario;
     @Column(name = "contrasenha")
     private String contrasenha;
-    @Column(name = "email")
+    @Column(name = "email", unique = true, nullable = false)
     private String email;
     @Column(name = "fecha_registro")
     private LocalDate fechaRegistro;
