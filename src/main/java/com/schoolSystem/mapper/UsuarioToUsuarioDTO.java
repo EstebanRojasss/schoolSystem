@@ -1,0 +1,16 @@
+package com.schoolSystem.mapper;
+import com.schoolSystem.dto.UsuarioGetDto;
+import com.schoolSystem.entities.Usuario;
+import org.springframework.stereotype.Component;
+
+@Component
+public class UsuarioToUsuarioDTO implements IMapper<Usuario, UsuarioGetDto> {
+
+    @Override
+    public UsuarioGetDto map(Usuario in) {
+        return new UsuarioGetDto(
+                in.getNombreUsuario(),
+                in.getEmail(),
+                in.getFechaRegistro() );
+    }
+}
