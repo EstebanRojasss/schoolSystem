@@ -23,5 +23,10 @@ public class GlobalExceptionHandling {
         return ResponseEntity.status(HttpStatus.CONFLICT).body(emailException.getMessage());
     }
 
+    @ExceptionHandler(EmailException.class)
+    public ResponseEntity<String>notFoundHandler(EmailException emailException){
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(emailException.getMessage());
+    }
+
     
 }
