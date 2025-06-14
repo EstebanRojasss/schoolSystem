@@ -2,13 +2,11 @@ package com.schoolSystem.controllers;
 
 import com.schoolSystem.dto.UsuarioCreateDto;
 import com.schoolSystem.dto.UsuarioGetDto;
+import com.schoolSystem.entities.Usuario;
 import com.schoolSystem.mapper.UsuarioToUsuarioDTO;
 import com.schoolSystem.service.UsuarioService;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -37,6 +35,12 @@ public class UsuarioController {
                 stream().
                 map(mapUsuarioDto::map).
                 collect(Collectors.toSet()));
+    }
+
+    @DeleteMapping("/admin")
+    public ResponseEntity<String> deleteUserByEmail(String email){
+        usuarioService.deleteUserByEmail(email);
+        return ResponseEntity.ok().build();
     }
 
 
