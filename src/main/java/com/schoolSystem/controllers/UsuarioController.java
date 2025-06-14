@@ -9,20 +9,20 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 
-import java.util.List;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 @RestController("/users")
 public class UsuarioController {
 
     private final UsuarioService usuarioService;
 
-    private final UsuarioToUsuarioDTO mapper;
+    private final UsuarioToUsuarioDTO mapUsuarioDto;
 
-    public UsuarioController(UsuarioService usuarioService, UsuarioToUsuarioDTO mapper) {
+    public UsuarioController(UsuarioService usuarioService, UsuarioToUsuarioDTO mapUsuarioDto) {
         this.usuarioService = usuarioService;
-        this.mapper = mapper;
+        this.mapUsuarioDto = mapUsuarioDto;
     }
 
     @PostMapping("/admin")
@@ -31,7 +31,13 @@ public class UsuarioController {
         return ResponseEntity.ok().build();
     }
 
-    
+    @GetMapping("/admin")
+    public ResponseEntity<Set<UsuarioGetDto>>getAllUsers(){
+        return ResponseEntity.ok(usuarioService.getAllUsers().
+                stream().
+                map(mapUsuarioDto::map).
+                collect(Collectors.toSet()));
+    }
 
 
 }
