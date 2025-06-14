@@ -1,8 +1,8 @@
 package com.schoolSystem.exception;
 
-public class EmailException extends BaseException{
+public class EmailDuplicatedException extends BaseException{
 
-    public EmailException(String message) {
+    public EmailDuplicatedException(String message) {
         super(message);
     }
 
