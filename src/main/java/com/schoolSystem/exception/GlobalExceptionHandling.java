@@ -18,14 +18,14 @@ public class GlobalExceptionHandling {
         return ResponseEntity.status(HttpStatus.NOT_FOUND).body(roleNotFound.getMessage());
     }
 
-    @ExceptionHandler(EmailException.class)
-    public ResponseEntity<String>uniqueEmailHandle(EmailException emailException){
-        return ResponseEntity.status(HttpStatus.CONFLICT).body(emailException.getMessage());
+    @ExceptionHandler(EmailDuplicatedException.class)
+    public ResponseEntity<String>uniqueEmailHandle(EmailDuplicatedException emailDuplicatedException){
+        return ResponseEntity.status(HttpStatus.CONFLICT).body(emailDuplicatedException.getMessage());
     }
 
-    @ExceptionHandler(EmailException.class)
-    public ResponseEntity<String>notFoundHandler(EmailException emailException){
-        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(emailException.getMessage());
+    @ExceptionHandler(EmailNotFoundException.class)
+    public ResponseEntity<String>notFoundHandler(EmailNotFoundException emailNotFoundException){
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(emailNotFoundException.getMessage());
     }
 
     
