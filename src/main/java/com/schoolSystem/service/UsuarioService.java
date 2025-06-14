@@ -6,6 +6,7 @@ import com.schoolSystem.entities.Usuario;
 import com.schoolSystem.entities.rol.Rol;
 import com.schoolSystem.exception.EmailDuplicatedException;
 import com.schoolSystem.exception.RoleNotFound;
+import com.schoolSystem.exception.UserNotFoundException;
 import com.schoolSystem.repository.DocenteRepository;
 import com.schoolSystem.repository.EstudianteRepository;
 import com.schoolSystem.repository.RolRepository;
@@ -71,6 +72,14 @@ public class UsuarioService {
                 .orElseThrow(() -> new EmailDuplicatedException("El usuario que desea eliminar no existe, verifique la información."));
         usuarioRepository.delete(usuarioABorrar);
     }
+
+    public void deleteUserById(Long id){
+        Usuario usuario = usuarioRepository.findById(id).
+                orElseThrow( () -> new UserNotFoundException("El usuario que desea eliminar no existe, verifque la información."));
+        usuarioRepository.delete(usuario);
+    }
+
+
 
 
 }
