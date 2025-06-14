@@ -18,5 +18,10 @@ public class GlobalExceptionHandling {
         return ResponseEntity.status(HttpStatus.NOT_FOUND).body(roleNotFound.getMessage());
     }
 
+    @ExceptionHandler(EmailException.class)
+    public ResponseEntity<String>uniqueEmailHandle(EmailException emailException){
+        return ResponseEntity.status(HttpStatus.CONFLICT).body(emailException.getMessage());
+    }
+
     
 }
