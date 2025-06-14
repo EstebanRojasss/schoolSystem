@@ -15,6 +15,7 @@ import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class UsuarioService {
@@ -35,37 +36,36 @@ public class UsuarioService {
         this.docenteRepository = docenteRepository;
     }
 
-    public void createUser(UsuarioCreateDto usuarioCreateDto){
+    public void createUser(UsuarioCreateDto usuarioCreateDto) {
         Usuario usuario = new Usuario();
-        usuario.setNombreUsuario( usuarioCreateDto.username() );
-        usuario.setContrasenha( usuarioCreateDto.password() );
+        usuario.setNombreUsuario(usuarioCreateDto.username());
+        usuario.setContrasenha(usuarioCreateDto.password());
 
         usuarioRepository.findByEmail(
-                usuarioCreateDto.email())
+                        usuarioCreateDto.email())
                 .orElseThrow(() -> new EmailException("El email que ha ingresado no es válido o ya existe."));
-            usuario.setEmail( usuarioCreateDto.email() );
-
+        usuario.setEmail(usuarioCreateDto.email());
 
         for (Rol rol : usuarioCreateDto.roles()) {
             Rol rolActual = rolRepository.findById(rol.getId())
-                    .orElseThrow( () -> new RoleNotFound("El rol ingresado no existe") );
-            usuario.addRole( rolActual );
+                    .orElseThrow(() -> new RoleNotFound("El rol ingresado no existe"));
+            usuario.addRole(rolActual);
         }
-        usuario.setFechaRegistro( LocalDate.now() );
-        usuario.setEstado( Estado.ACTIVO );
+        usuario.setFechaRegistro(LocalDate.now());
+        usuario.setEstado(Estado.ACTIVO);
         usuarioRepository.save(usuario);
     }
 
-    public List<Usuario> getAllUsers(){
+    public List<Usuario> getAllUsers() {
         return usuarioRepository.findAll();
     }
 
-    public void deleteUserById(Long id){
-        usuarioRepository.;
+    public void deleteUserById(String email) {
+        Usuario usuarioABorrar = usuarioRepository
+                .findByEmail(email)
+                .orElseThrow(() -> new EmailException("El usuario que desea eliminar no existe, verifique la información."));
+        usuarioRepository.delete(usuarioABorrar);
     }
-
-
-
 
 
 }
