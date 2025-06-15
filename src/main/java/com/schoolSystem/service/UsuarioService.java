@@ -1,6 +1,8 @@
 package com.schoolSystem.service;
 
 import com.schoolSystem.dto.UsuarioCreateDto;
+import com.schoolSystem.dto.UsuarioGetDto;
+import com.schoolSystem.dto.UsuarioUpdateDto;
 import com.schoolSystem.entities.Estado;
 import com.schoolSystem.entities.Usuario;
 import com.schoolSystem.entities.rol.Rol;
@@ -13,6 +15,7 @@ import com.schoolSystem.repository.RolRepository;
 import com.schoolSystem.repository.UsuarioRepository;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDate;
 import java.util.List;
@@ -41,6 +44,7 @@ public class UsuarioService {
         this.passwordEncoder = passwordEncoder;
     }
 
+    @Transactional
     public void createUser(UsuarioCreateDto usuarioCreateDto) {
         Usuario usuario = new Usuario();
         usuario.setNombreUsuario(usuarioCreateDto.username());
@@ -69,15 +73,37 @@ public class UsuarioService {
     public void deleteUserByEmail(String email) {
         Usuario usuarioABorrar = usuarioRepository
                 .findByEmail(email)
-                .orElseThrow(() -> new EmailDuplicatedException("El usuario que desea eliminar no existe, verifique la información."));
+                .orElseThrow( () -> new EmailDuplicatedException("El usuario que desea eliminar no existe, verifique la información.") );
         usuarioRepository.delete(usuarioABorrar);
     }
 
     public void deleteUserById(Long id){
         Usuario usuario = usuarioRepository.findById(id).
-                orElseThrow( () -> new UserNotFoundException("El usuario que desea eliminar no existe, verifque la información."));
+                orElseThrow( () -> new UserNotFoundException("El usuario que desea eliminar no existe, verifque la información.") );
         usuarioRepository.delete(usuario);
     }
+
+    @Transactional
+    public void updateById(Long id, UsuarioUpdateDto userUpdate){
+        Usuario usuario = usuarioRepository.findById(id).
+                orElseThrow(() -> new UserNotFoundException("El usuario no existe, verifique la información"));
+        actualizarDatos(usuario, userUpdate);
+    }
+
+    public void updateByEmail(String email, UsuarioUpdateDto userUpdate){
+        Usuario usuario = usuarioRepository.findByEmail(email).
+                orElseThrow(() -> new UserNotFoundException("El usuario no existe, verifique la información."));
+        actualizarDatos(usuario, userUpdate);
+    }
+
+    private void actualizarDatos(Usuario usuario, UsuarioUpdateDto userUpdate){
+        usuario.setNombreUsuario(userUpdate.username());
+        usuario.setContrasenha(userUpdate.password());
+        usuario.setEmail(userUpdate.email());
+        usuario.setEstado(userUpdate.estado());
+        usuario.setFechaRegistro(userUpdate.fecha_registro());
+    }
+
 
 
 
