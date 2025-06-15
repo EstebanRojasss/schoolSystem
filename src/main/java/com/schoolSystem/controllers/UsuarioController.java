@@ -2,6 +2,7 @@ package com.schoolSystem.controllers;
 
 import com.schoolSystem.dto.UsuarioCreateDto;
 import com.schoolSystem.dto.UsuarioGetDto;
+import com.schoolSystem.dto.UsuarioUpdateDto;
 import com.schoolSystem.entities.Usuario;
 import com.schoolSystem.mapper.UsuarioToUsuarioDTO;
 import com.schoolSystem.service.UsuarioService;
@@ -48,6 +49,12 @@ public class UsuarioController {
         usuarioService.deleteUserById(id);
         return ResponseEntity.ok().build();
     }
+
+    @PutMapping("/admin/{id}")
+    public ResponseEntity<String>updateById(@PathVariable("id") Long id, @RequestBody UsuarioUpdateDto usuarioUpdateDto){
+        usuarioService.updateById(id, usuarioUpdateDto);
+        return ResponseEntity.ok().build();
+    } 
 
 
 }
