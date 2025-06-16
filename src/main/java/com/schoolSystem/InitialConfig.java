@@ -8,7 +8,6 @@ import com.schoolSystem.repository.RolRepository;
 import jakarta.annotation.PostConstruct;
 import org.springframework.stereotype.Service;
 
-import java.awt.*;
 import java.util.Random;
 
 @Service
@@ -19,12 +18,9 @@ public class InitialConfig {
 
     private final CursoRepository cursoRepository;
 
-    private final Random creditosRandom;
-
-    public InitialConfig(RolRepository rolRepository, CursoRepository cursoRepository, Random creditosRandom) {
+    public InitialConfig(RolRepository rolRepository, CursoRepository cursoRepository) {
         this.rolRepository = rolRepository;
         this.cursoRepository = cursoRepository;
-        this.creditosRandom = creditosRandom;
     }
 
 
@@ -57,6 +53,7 @@ public class InitialConfig {
     }
 
     private short cantidadCreditosCurso() {
+        Random creditosRandom = new Random();
         return (short) creditosRandom.nextInt(50, 60);
     }
 
