@@ -14,7 +14,7 @@ public class Docente extends Persona {
 
     @OneToOne
     @JoinColumn(name = "idUsuario", unique = true, nullable = false)
-    private Usuario idUsuario;
+    private Usuario usuario;
 
     @ManyToMany
     @JoinTable(
@@ -24,10 +24,10 @@ public class Docente extends Persona {
     )
     private Set<Curso> cursos;
 
-    public Docente(Long id, String nombre, String apellido, String numeroDocumento, LocalDate fechaNacimiento, String direccion, String telefono, String email, Estado estado, Usuario idUsuario, Set<Curso> cursos) {
+    public Docente(Long id, String nombre, String apellido, String numeroDocumento, LocalDate fechaNacimiento, String direccion, String telefono, String email, Estado estado, Usuario usuario, Set<Curso> cursos) {
         super(id, nombre, apellido, numeroDocumento, fechaNacimiento, direccion, telefono, email);
         this.estado = estado;
-        this.idUsuario = idUsuario;
+        this.usuario = usuario;
         this.cursos = cursos;
     }
 
@@ -43,12 +43,12 @@ public class Docente extends Persona {
 
     }
 
-    public Usuario getIdUsuario() {
-        return idUsuario;
+    public Usuario getUsuario() {
+        return usuario;
     }
 
-    public void setIdUsuario(Usuario idUsuario) {
-        this.idUsuario = idUsuario;
+    public void setUsuario(Usuario usuario) {
+        this.usuario = usuario;
     }
 
     public Estado getEstado() {
