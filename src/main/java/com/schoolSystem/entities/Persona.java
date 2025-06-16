@@ -14,7 +14,7 @@ public abstract class Persona {
     private String nombre;
     private String apellido;
     private String numeroDocumento;
-    private LocalDate FechaNacimiento;
+    private LocalDate fechaNacimiento;
     private String direccion;
     private String telefono;
     private String email;
@@ -24,7 +24,7 @@ public abstract class Persona {
         this.nombre = nombre;
         this.apellido = apellido;
         this.numeroDocumento = numeroDocumento;
-        this.FechaNacimiento = fechaNacimiento;
+        this.fechaNacimiento = fechaNacimiento;
         this.direccion = direccion;
         this.telefono = telefono;
         this.email = email;
@@ -62,11 +62,11 @@ public abstract class Persona {
     }
 
     public LocalDate getFechaNacimiento() {
-        return FechaNacimiento;
+        return fechaNacimiento;
     }
 
     public void setFechaNacimiento(LocalDate fechaNacimiento) {
-        FechaNacimiento = fechaNacimiento;
+        this.fechaNacimiento = fechaNacimiento;
     }
 
     public String getDireccion() {
