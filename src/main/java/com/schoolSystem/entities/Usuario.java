@@ -24,9 +24,9 @@ public class Usuario {
     @Enumerated(EnumType.STRING)
     private Estado estado;
 
-    @OneToOne(mappedBy = "idUsuario", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @OneToOne(mappedBy = "usuario", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private Estudiante estudiante;
-    @OneToOne(mappedBy = "idUsuario", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @OneToOne(mappedBy = "usuario", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private Docente docente;
 
     @ManyToMany(fetch = FetchType.EAGER)
