@@ -19,6 +19,9 @@ public class Curso {
         this.creditos = creditos;
     }
 
+    public Curso() {
+    }
+
     public Long getId() {
         return id;
     }
