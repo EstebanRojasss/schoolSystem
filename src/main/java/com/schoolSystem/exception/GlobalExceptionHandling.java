@@ -34,5 +34,10 @@ public class GlobalExceptionHandling {
         return ResponseEntity.status(HttpStatus.NOT_FOUND).body(cursoNotFoundException.getMessage());
     }
 
+    @ExceptionHandler(IncorrectRoleException.class)
+    public ResponseEntity<String>invalidRoleHandler(IncorrectRoleException incorrectRoleException){
+        return ResponseEntity.status(HttpStatus.CONFLICT).body(incorrectRoleException.getMessage());
+    }
+
     
 }
