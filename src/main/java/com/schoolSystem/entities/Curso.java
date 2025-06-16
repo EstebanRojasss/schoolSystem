@@ -7,7 +7,7 @@ import jakarta.persistence.*;
 public class Curso {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private final Long id;
+    private  Long id;
     @Column(name = "nombre_curso")
     private String nombreCurso;
     @Column(name = "creditos")
