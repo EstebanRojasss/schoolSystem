@@ -1,4 +1,4 @@
-package com.schoolSystem.dto;
+package com.schoolSystem.dto.usuarioDto;
 
 import java.time.LocalDate;
 
