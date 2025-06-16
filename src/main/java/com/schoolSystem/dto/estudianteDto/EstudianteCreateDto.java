@@ -1,6 +1,9 @@
 package com.schoolSystem.dto.estudianteDto;
 
+import com.schoolSystem.entities.Curso;
+
 import java.time.LocalDate;
+import java.util.Set;
 
 public record EstudianteCreateDto(String nombre,
                                   String apellido,
@@ -8,5 +11,6 @@ public record EstudianteCreateDto(String nombre,
                                   LocalDate fecha_nacimiento,
                                   String direccion,
                                   String telefono,
-                                  String email) {
+                                  String email,
+                                  Set<Curso>cursos) {
 }
