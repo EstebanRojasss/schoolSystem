@@ -1,5 +1,5 @@
 package com.schoolSystem.mapper;
-import com.schoolSystem.dto.UsuarioGetDto;
+import com.schoolSystem.dto.usuarioDto.UsuarioGetDto;
 import com.schoolSystem.entities.Usuario;
 import org.springframework.stereotype.Component;
 
