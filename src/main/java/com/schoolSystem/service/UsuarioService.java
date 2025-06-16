@@ -1,18 +1,15 @@
 package com.schoolSystem.service;
 
-import com.schoolSystem.dto.UsuarioCreateDto;
-import com.schoolSystem.dto.UsuarioGetDto;
-import com.schoolSystem.dto.UsuarioUpdateDto;
+import com.schoolSystem.dto.usuarioDto.UsuarioCreateDto;
+import com.schoolSystem.dto.usuarioDto.UsuarioUpdateDto;
+import com.schoolSystem.dto.estudianteDto.EstudianteCreateDto;
+import com.schoolSystem.entities.Curso;
 import com.schoolSystem.entities.Estado;
+import com.schoolSystem.entities.Estudiante;
 import com.schoolSystem.entities.Usuario;
 import com.schoolSystem.entities.rol.Rol;
-import com.schoolSystem.exception.EmailDuplicatedException;
-import com.schoolSystem.exception.RoleNotFound;
-import com.schoolSystem.exception.UserNotFoundException;
-import com.schoolSystem.repository.DocenteRepository;
-import com.schoolSystem.repository.EstudianteRepository;
-import com.schoolSystem.repository.RolRepository;
-import com.schoolSystem.repository.UsuarioRepository;
+import com.schoolSystem.exception.*;
+import com.schoolSystem.repository.*;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -34,14 +31,18 @@ public class UsuarioService {
 
     private final PasswordEncoder passwordEncoder;
 
+    private final CursoRepository cursoRepository;
+
 
     public UsuarioService(UsuarioRepository usuarioRepository, RolRepository rolRepository,
-                          EstudianteRepository estudianteRepository, DocenteRepository docenteRepository, PasswordEncoder passwordEncoder) {
+                          EstudianteRepository estudianteRepository, DocenteRepository docenteRepository,
+                          PasswordEncoder passwordEncoder, CursoRepository cursoRepository) {
         this.usuarioRepository = usuarioRepository;
         this.rolRepository = rolRepository;
         this.estudianteRepository = estudianteRepository;
         this.docenteRepository = docenteRepository;
         this.passwordEncoder = passwordEncoder;
+        this.cursoRepository = cursoRepository;
     }
 
     @Transactional
@@ -50,11 +51,11 @@ public class UsuarioService {
         usuario.setNombreUsuario(usuarioCreateDto.username());
         usuario.setContrasenha(passwordEncoder.encode(usuarioCreateDto.password()));
 
-        Optional<Usuario> email = usuarioRepository.findByEmail( usuarioCreateDto.email() );
-        if(email.isPresent()){
-            throw new EmailDuplicatedException( "El usuario que desea ingresar no es válido o ya existe" );
+        Optional<Usuario> email = usuarioRepository.findByEmail(usuarioCreateDto.email());
+        if (email.isPresent()) {
+            throw new EmailDuplicatedException("El usuario que desea ingresar no es válido o ya existe");
         }
-        usuario.setEmail( usuarioCreateDto.email() );
+        usuario.setEmail(usuarioCreateDto.email());
 
         for (Rol rol : usuarioCreateDto.roles()) {
             Rol rolActual = rolRepository.findById(rol.getId())
@@ -73,30 +74,32 @@ public class UsuarioService {
     public void deleteUserByEmail(String email) {
         Usuario usuarioABorrar = usuarioRepository
                 .findByEmail(email)
-                .orElseThrow( () -> new EmailDuplicatedException("El usuario que desea eliminar no existe, verifique la información.") );
+                .orElseThrow(() -> new EmailDuplicatedException("El usuario que desea eliminar no existe, verifique la información."));
         usuarioRepository.delete(usuarioABorrar);
     }
 
-    public void deleteUserById(Long id){
+    public void deleteUserById(Long id) {
         Usuario usuario = usuarioRepository.findById(id).
-                orElseThrow( () -> new UserNotFoundException("El usuario que desea eliminar no existe, verifque la información.") );
+                orElseThrow(() -> new UserNotFoundException("El usuario que desea eliminar no existe, verifque la información."));
         usuarioRepository.delete(usuario);
     }
 
     @Transactional
-    public void updateById(Long id, UsuarioUpdateDto userUpdate){
+    public void updateById(Long id, UsuarioUpdateDto userUpdate) {
         Usuario usuario = usuarioRepository.findById(id).
                 orElseThrow(() -> new UserNotFoundException("El usuario no existe, verifique la información"));
         actualizarDatos(usuario, userUpdate);
     }
 
-    public void updateByEmail(String email, UsuarioUpdateDto userUpdate){
+
+    public void updateByEmail(String email, UsuarioUpdateDto userUpdate) {
         Usuario usuario = usuarioRepository.findByEmail(email).
                 orElseThrow(() -> new UserNotFoundException("El usuario no existe, verifique la información."));
         actualizarDatos(usuario, userUpdate);
     }
 
-    private void actualizarDatos(Usuario usuario, UsuarioUpdateDto userUpdate){
+
+    private void actualizarDatos(Usuario usuario, UsuarioUpdateDto userUpdate) {
         usuario.setNombreUsuario(userUpdate.username());
         usuario.setContrasenha(userUpdate.password());
         usuario.setEmail(userUpdate.email());
@@ -104,7 +107,43 @@ public class UsuarioService {
         usuario.setFechaRegistro(userUpdate.fecha_registro());
     }
 
+    @Transactional
+    public void crearEstudiante(EstudianteCreateDto dto) {
+        Estudiante estudiante = new Estudiante();
+        estudiante.setNombre(dto.nombre());
+        estudiante.setApellido(dto.apellido());
+        estudiante.setNumeroDocumento(dto.numeroDocumento());
+        estudiante.setFechaNacimiento(dto.fecha_nacimiento());
+        estudiante.setFechaNacimiento(LocalDate.now());
+        estudiante.setDireccion(dto.direccion());
+        estudiante.setTelefono(dto.telefono());
+        estudiante.setEmail(dto.email());
 
+        for (Curso comprobarCurso : dto.cursos()) {
+            Curso curso = cursoRepository.findById(comprobarCurso.getId()).
+                    orElseThrow(() -> new CursoNotFoundException("El curso no existe."));
+            estudiante.addCurso(curso);
+        }
+
+        Usuario usuarioAsociado = usuarioRepository.findById(dto.id())
+                .orElseThrow(() -> new UserNotFoundException("El usuario no existe, verifique la información."));
+
+        asignarUsuarioEstudiante(usuarioAsociado);
+
+        estudiante.setUsuario(usuarioAsociado);
+        estudiante.setEstado(Estado.ACTIVO);
+        estudianteRepository.save(estudiante);
+    }
+
+    private void asignarUsuarioEstudiante(Usuario usuario) {
+            for (Rol rol : usuario.getRoles()) {
+                 rolRepository.findById(rol.getId())
+                        .orElseThrow(() -> new RoleNotFound("El rol ingresado no coincide con ninguno disponible. Verifique los datos"));
+            }
+            if(usuario.getRoles().stream().noneMatch(rol -> rol.getTipoRol().toString().equals("ESTUDIANTE"))){
+                throw new IncorrectRoleException("El usuario especificado no tiene rol de ESTUDIANTE");
+            }
+    }
 
 
 
