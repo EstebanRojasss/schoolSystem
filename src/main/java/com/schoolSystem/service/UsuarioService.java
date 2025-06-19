@@ -1,12 +1,10 @@
 package com.schoolSystem.service;
 
+import com.schoolSystem.dto.DocenteCreateDto;
 import com.schoolSystem.dto.usuarioDto.UsuarioCreateDto;
 import com.schoolSystem.dto.usuarioDto.UsuarioUpdateDto;
 import com.schoolSystem.dto.estudianteDto.EstudianteCreateDto;
-import com.schoolSystem.entities.Curso;
-import com.schoolSystem.entities.Estado;
-import com.schoolSystem.entities.Estudiante;
-import com.schoolSystem.entities.Usuario;
+import com.schoolSystem.entities.*;
 import com.schoolSystem.entities.rol.Rol;
 import com.schoolSystem.exception.*;
 import com.schoolSystem.repository.*;
@@ -135,16 +133,49 @@ public class UsuarioService {
         estudianteRepository.save(estudiante);
     }
 
-    private void asignarUsuarioEstudiante(Usuario usuario) {
-            for (Rol rol : usuario.getRoles()) {
-                 rolRepository.findById(rol.getId())
-                        .orElseThrow(() -> new RoleNotFound("El rol ingresado no coincide con ninguno disponible. Verifique los datos"));
-            }
-            if(usuario.getRoles().stream().noneMatch(rol -> rol.getTipoRol().toString().equals("ESTUDIANTE"))){
-                throw new IncorrectRoleException("El usuario especificado no tiene rol de ESTUDIANTE");
-            }
+    @Transactional
+    public void crearDocente(DocenteCreateDto dto){
+        Docente docente = new Docente();
+        docente.setNombre(dto.nombre());
+        docente.setApellido(dto.apellido());
+        docente.setNumeroDocumento(dto.numeroDocumento());
+        docente.setFechaNacimiento(dto.fecha_nacimiento());
+        docente.setTelefono(dto.telefono());
+        docente.setDireccion(dto.direccion());
+        docente.setEmail(dto.email());
+
+        for(Curso curso : dto.cursos()){
+            Curso comprobarCurso = cursoRepository.findById(curso.getId())
+                    .orElseThrow(() -> new CursoNotFoundException("El curso ingresado no coincide con ninguno disponible. Compruebe los datos.") );
+            docente.addCurso(comprobarCurso);
+        }
+        Usuario usuario = usuarioRepository.findById(dto.id())
+                .orElseThrow(() -> new UserNotFoundException("El usuario no existe. Verifique la información."));
+        docente.setUsuario(usuario);
+        docente.setEstado(Estado.ACTIVO);
+        docenteRepository.save(docente);
     }
 
+    private void comprobacionDeRol(Usuario usuario) {
+        for (Rol rol : usuario.getRoles()) {
+            rolRepository.findById(rol.getId())
+                    .orElseThrow(() -> new RoleNotFound("El rol ingresado no coincide con ninguno disponible. Verifique los datos"));
+        }
+    }
+
+    private void asignarUsuarioEstudiante(Usuario usuario) {
+        comprobacionDeRol(usuario);
+        if (usuario.getRoles().stream().noneMatch(rol -> rol.getTipoRol().toString().equals("ESTUDIANTE"))) {
+            throw new IncorrectRoleException("El usuario especificado no tiene rol de ESTUDIANTE");
+        }
+    }
+
+    private void asginarUsuarioDocente(Usuario usuario) {
+        comprobacionDeRol(usuario);
+        if (usuario.getRoles().stream().noneMatch(rol -> rol.getTipoRol().toString().equals("DOCENTE"))) {
+            throw new IncorrectRoleException("El usuario especificado no tiene rol de DOCENTE");
+        }
+    }
 
 
 }
