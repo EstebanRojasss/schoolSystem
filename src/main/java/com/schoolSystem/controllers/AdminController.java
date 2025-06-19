@@ -1,5 +1,6 @@
 package com.schoolSystem.controllers;
 
+import com.schoolSystem.dto.docenteDto.DocenteCreateDto;
 import com.schoolSystem.dto.usuarioDto.UsuarioCreateDto;
 import com.schoolSystem.dto.usuarioDto.UsuarioGetDto;
 import com.schoolSystem.dto.usuarioDto.UsuarioUpdateDto;
@@ -60,6 +61,12 @@ public class AdminController {
     @PostMapping("/student")
     public ResponseEntity<String> createStudent(@RequestBody EstudianteCreateDto estudianteCreateDto){
         usuarioService.crearEstudiante(estudianteCreateDto);
+        return ResponseEntity.ok().build();
+    }
+
+    @PostMapping("/teacher")
+    public ResponseEntity<String> createTeacher(@RequestBody DocenteCreateDto docenteCreateDto){
+        usuarioService.crearDocente(docenteCreateDto);
         return ResponseEntity.ok().build();
     }
 
