@@ -1,6 +1,6 @@
 package com.schoolSystem.service;
 
-import com.schoolSystem.dto.DocenteCreateDto;
+import com.schoolSystem.dto.docenteDto.DocenteCreateDto;
 import com.schoolSystem.dto.usuarioDto.UsuarioCreateDto;
 import com.schoolSystem.dto.usuarioDto.UsuarioUpdateDto;
 import com.schoolSystem.dto.estudianteDto.EstudianteCreateDto;
@@ -120,7 +120,7 @@ public class UsuarioService {
 
         for (Curso comprobarCurso : dto.cursos()) {
             Curso curso = cursoRepository.findById(comprobarCurso.getId()).
-                    orElseThrow(() -> new CursoNotFoundException("El curso no existe."));
+                    orElseThrow(() -> new CursoNotFoundException("El curso ingresado no coincide con ninguno disponible. Compruebe los datos."));
             estudiante.addCurso(curso);
         }
 
