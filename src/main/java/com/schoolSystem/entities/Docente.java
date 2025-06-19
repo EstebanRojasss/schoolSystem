@@ -3,6 +3,7 @@ package com.schoolSystem.entities;
 import jakarta.persistence.*;
 
 import java.time.LocalDate;
+import java.util.HashSet;
 import java.util.Set;
 
 @Entity
@@ -22,7 +23,7 @@ public class Docente extends Persona {
             joinColumns = @JoinColumn(name = "docente_id"),
             inverseJoinColumns = @JoinColumn(name = "curso_id")
     )
-    private Set<Curso> cursos;
+    private Set<Curso> cursos = new HashSet<>();
 
     public Docente(Long id, String nombre, String apellido, String numeroDocumento, LocalDate fechaNacimiento, String direccion, String telefono, String email, Estado estado, Usuario usuario, Set<Curso> cursos) {
         super(id, nombre, apellido, numeroDocumento, fechaNacimiento, direccion, telefono, email);
@@ -57,6 +58,10 @@ public class Docente extends Persona {
 
     public void setEstado(Estado estado) {
         this.estado = estado;
+    }
+
+    public void addCurso(Curso curso){
+        this.cursos.add(curso);
     }
 
 
