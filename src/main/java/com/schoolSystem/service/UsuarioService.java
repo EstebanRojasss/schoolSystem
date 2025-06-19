@@ -127,7 +127,7 @@ public class UsuarioService {
         Usuario usuarioAsociado = usuarioRepository.findById(dto.id())
                 .orElseThrow(() -> new UserNotFoundException("El usuario no existe, verifique la información."));
 
-        asignarUsuarioEstudiante(usuarioAsociado);
+        comprAsignacionRolEstudiante(usuarioAsociado);
 
         estudiante.setUsuario(usuarioAsociado);
         estudiante.setEstado(Estado.ACTIVO);
@@ -152,27 +152,30 @@ public class UsuarioService {
         }
         Usuario usuario = usuarioRepository.findById(dto.id())
                 .orElseThrow(() -> new UserNotFoundException("El usuario no existe. Verifique la información."));
+
+        comprAsignacionRolDocente(usuario);
+
         docente.setUsuario(usuario);
         docente.setEstado(Estado.ACTIVO);
         docenteRepository.save(docente);
     }
 
-    private void comprobacionDeRol(Usuario usuario) {
+    private void comprobacionRolExistente(Usuario usuario) {
         for (Rol rol : usuario.getRoles()) {
             rolRepository.findById(rol.getId())
                     .orElseThrow(() -> new RoleNotFound("El rol ingresado no coincide con ninguno disponible. Verifique los datos"));
         }
     }
 
-    private void asignarUsuarioEstudiante(Usuario usuario) {
-        comprobacionDeRol(usuario);
+    private void comprAsignacionRolEstudiante(Usuario usuario) {
+        comprobacionRolExistente(usuario);
         if (usuario.getRoles().stream().noneMatch(rol -> rol.getTipoRol().toString().equals("ESTUDIANTE"))) {
             throw new IncorrectRoleException("El usuario especificado no tiene rol de ESTUDIANTE");
         }
     }
 
-    private void asginarUsuarioDocente(Usuario usuario) {
-        comprobacionDeRol(usuario);
+    private void comprAsignacionRolDocente(Usuario usuario) {
+        comprobacionRolExistente(usuario);
         if (usuario.getRoles().stream().noneMatch(rol -> rol.getTipoRol().toString().equals("DOCENTE"))) {
             throw new IncorrectRoleException("El usuario especificado no tiene rol de DOCENTE");
         }
