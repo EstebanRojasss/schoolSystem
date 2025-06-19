@@ -14,5 +14,5 @@ public record DocenteCreateDto (String nombre,
                                 String telefono,
                                 String email,
                                 Set<Curso>cursos,
-                                Usuario usuario){
+                               Long id){
 }
