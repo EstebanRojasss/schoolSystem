@@ -13,6 +13,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDate;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 
@@ -101,7 +102,7 @@ public class UsuarioService {
         usuario.setNombreUsuario(userUpdate.username());
         usuario.setContrasenha(userUpdate.password());
         usuario.setEmail(userUpdate.email());
-        usuario.setEstado(userUpdate.estado());
+        usuario.setEstado( comprobarEstadoExistente(userUpdate.estado()) );
         usuario.setFechaRegistro(userUpdate.fecha_registro());
     }
 
@@ -175,6 +176,13 @@ public class UsuarioService {
         if (usuario.getRoles().stream().noneMatch(rol -> rol.getTipoRol().toString().equals("DOCENTE"))) {
             throw new IncorrectRoleException("El usuario especificado no tiene rol de DOCENTE");
         }
+    }
+
+    private Estado comprobarEstadoExistente(Estado estado){
+        return Arrays.stream(Estado.values())
+                .filter(es -> es.name().equalsIgnoreCase(estado.name()))
+                .findFirst()
+                .orElseThrow(() -> new EstadoNotFoundException("El estado ingresado no coincide con ninguno existente. Compruebe los datos."));
     }
 
 
