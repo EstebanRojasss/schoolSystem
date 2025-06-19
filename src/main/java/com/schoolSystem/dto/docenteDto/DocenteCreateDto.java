@@ -1,7 +1,6 @@
-package com.schoolSystem.dto;
+package com.schoolSystem.dto.docenteDto;
 
 import com.schoolSystem.entities.Curso;
-import com.schoolSystem.entities.Usuario;
 
 import java.time.LocalDate;
 import java.util.Set;
