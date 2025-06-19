@@ -39,5 +39,10 @@ public class GlobalExceptionHandling {
         return ResponseEntity.status(HttpStatus.CONFLICT).body(incorrectRoleException.getMessage());
     }
 
+    @ExceptionHandler(EstadoNotFoundException.class)
+    public ResponseEntity<String> notFoundHandler(EstadoNotFoundException estadoNotFoundException){
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(estadoNotFoundException.getMessage());
+    }
+
     
 }
