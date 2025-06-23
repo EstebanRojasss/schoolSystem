@@ -35,10 +35,10 @@ public class DocenteService {
         this.cursoDtoMapper = cursoDtoMapper;
     }
 
-    public void setCalificacionByStudentId(Long id, short nota, String nombreCurso){
+    public void setCalificacionByStudentId(Long studentId, Short nota, String nombreCurso){
         Calificacion calificacion = new Calificacion();
         Estudiante estudiante = estudianteRepository
-                .findById(id)
+                .findById(studentId)
                 .orElseThrow(() -> new EstudianteNotFoundException("El estudiante no existe. Verifique los datos ingresados."));
 
         calificacion.setNota(nota);
