@@ -25,6 +25,9 @@ public class Calificacion {
         this.curso = curso;
     }
 
+    public Calificacion() {
+    }
+
     public Short getNota() {
         return nota;
     }
