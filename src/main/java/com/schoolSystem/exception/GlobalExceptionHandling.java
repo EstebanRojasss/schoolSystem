@@ -49,5 +49,8 @@ public class GlobalExceptionHandling {
         return ResponseEntity.status(HttpStatus.NOT_FOUND).body(estudianteNotFoundException.getMessage());
     }
 
-    
+    @ExceptionHandler(DocenteNotFoundException.class)
+    public ResponseEntity<String> notFoundHandler(DocenteNotFoundException docenteNotFoundException){
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(docenteNotFoundException.getMessage());
+    }
 }
