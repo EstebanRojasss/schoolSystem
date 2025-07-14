@@ -24,24 +24,20 @@ public class UsuarioService {
 
     private final RolRepository rolRepository;
 
-    private final EstudianteRepository estudianteRepository;
-
     private final DocenteRepository docenteRepository;
 
     private final PasswordEncoder passwordEncoder;
 
-    private final CursoRepository cursoRepository;
 
 
-    public UsuarioService(UsuarioRepository usuarioRepository, RolRepository rolRepository,
-                          EstudianteRepository estudianteRepository, DocenteRepository docenteRepository,
-                          PasswordEncoder passwordEncoder, CursoRepository cursoRepository) {
+    public UsuarioService(UsuarioRepository usuarioRepository,
+                          RolRepository rolRepository,
+                           DocenteRepository docenteRepository,
+                          PasswordEncoder passwordEncoder) {
         this.usuarioRepository = usuarioRepository;
         this.rolRepository = rolRepository;
-        this.estudianteRepository = estudianteRepository;
         this.docenteRepository = docenteRepository;
         this.passwordEncoder = passwordEncoder;
-        this.cursoRepository = cursoRepository;
     }
 
     @Transactional
