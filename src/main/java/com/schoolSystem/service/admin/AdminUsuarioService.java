@@ -1,4 +1,4 @@
-package com.schoolSystem.service;
+package com.schoolSystem.service.admin;
 
 import com.schoolSystem.dto.docenteDto.DocenteCreateDto;
 import com.schoolSystem.dto.usuarioDto.UsuarioCreateDto;
@@ -18,25 +18,21 @@ import java.util.List;
 import java.util.Optional;
 
 @Service
-public class UsuarioService {
+public class AdminUsuarioService {
 
     private final UsuarioRepository usuarioRepository;
 
     private final RolRepository rolRepository;
 
-    private final DocenteRepository docenteRepository;
-
     private final PasswordEncoder passwordEncoder;
 
 
 
-    public UsuarioService(UsuarioRepository usuarioRepository,
-                          RolRepository rolRepository,
-                           DocenteRepository docenteRepository,
-                          PasswordEncoder passwordEncoder) {
+    public AdminUsuarioService(UsuarioRepository usuarioRepository,
+                               RolRepository rolRepository,
+                               PasswordEncoder passwordEncoder) {
         this.usuarioRepository = usuarioRepository;
         this.rolRepository = rolRepository;
-        this.docenteRepository = docenteRepository;
         this.passwordEncoder = passwordEncoder;
     }
 
@@ -101,82 +97,6 @@ public class UsuarioService {
         usuario.setEstado( comprobarEstadoExistente(userUpdate.estado()) );
         usuario.setFechaRegistro(userUpdate.fecha_registro());
     }
-
-    @Transactional
-    public void crearEstudiante(EstudianteCreateDto dto) {
-        Estudiante estudiante = new Estudiante();
-        estudiante.setNombre(dto.nombre());
-        estudiante.setApellido(dto.apellido());
-        estudiante.setNumeroDocumento(dto.numeroDocumento());
-        estudiante.setFechaNacimiento(dto.fecha_nacimiento());
-        estudiante.setFechaNacimiento(LocalDate.now());
-        estudiante.setDireccion(dto.direccion());
-        estudiante.setTelefono(dto.telefono());
-        estudiante.setEmail(dto.email());
-
-        for (Curso comprobarCurso : dto.cursos()) {
-            Curso curso = cursoRepository.findById(comprobarCurso.getId()).
-                    orElseThrow(() -> new CursoNotFoundException("El curso ingresado no coincide con ninguno disponible. Compruebe los datos."));
-            estudiante.addCurso(curso);
-        }
-
-        Usuario usuarioAsociado = usuarioRepository.findById(dto.id())
-                .orElseThrow(() -> new UserNotFoundException("El usuario no existe, verifique la información."));
-
-        comprAsignacionRolEstudiante(usuarioAsociado);
-
-        estudiante.setUsuario(usuarioAsociado);
-        estudiante.setEstado(Estado.ACTIVO);
-        estudianteRepository.save(estudiante);
-    }
-
-    @Transactional
-    public void crearDocente(DocenteCreateDto dto){
-        Docente docente = new Docente();
-        docente.setNombre(dto.nombre());
-        docente.setApellido(dto.apellido());
-        docente.setNumeroDocumento(dto.numeroDocumento());
-        docente.setFechaNacimiento(dto.fecha_nacimiento());
-        docente.setTelefono(dto.telefono());
-        docente.setDireccion(dto.direccion());
-        docente.setEmail(dto.email());
-
-        for(Curso curso : dto.cursos()){
-            Curso comprobarCurso = cursoRepository.findById(curso.getId())
-                    .orElseThrow(() -> new CursoNotFoundException("El curso ingresado no coincide con ninguno disponible. Compruebe los datos.") );
-            docente.addCurso(comprobarCurso);
-        }
-        Usuario usuario = usuarioRepository.findById(dto.id())
-                .orElseThrow(() -> new UserNotFoundException("El usuario no existe. Verifique la información."));
-
-        comprAsignacionRolDocente(usuario);
-
-        docente.setUsuario(usuario);
-        docente.setEstado(Estado.ACTIVO);
-        docenteRepository.save(docente);
-    }
-
-    private void comprobacionRolExistente(Usuario usuario) {
-        for (Rol rol : usuario.getRoles()) {
-            rolRepository.findById(rol.getId())
-                    .orElseThrow(() -> new RoleNotFound("El rol ingresado no coincide con ninguno disponible. Verifique los datos"));
-        }
-    }
-
-    private void comprAsignacionRolEstudiante(Usuario usuario) {
-        comprobacionRolExistente(usuario);
-        if (usuario.getRoles().stream().noneMatch(rol -> rol.getTipoRol().toString().equals("ESTUDIANTE"))) {
-            throw new IncorrectRoleException("El usuario especificado no tiene rol de ESTUDIANTE");
-        }
-    }
-
-    private void comprAsignacionRolDocente(Usuario usuario) {
-        comprobacionRolExistente(usuario);
-        if (usuario.getRoles().stream().noneMatch(rol -> rol.getTipoRol().toString().equals("DOCENTE"))) {
-            throw new IncorrectRoleException("El usuario especificado no tiene rol de DOCENTE");
-        }
-    }
-
     private Estado comprobarEstadoExistente(Estado estado){
         return Arrays.stream(Estado.values())
                 .filter(es -> es.name().equalsIgnoreCase(estado.name()))
