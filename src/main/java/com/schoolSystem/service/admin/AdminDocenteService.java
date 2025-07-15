@@ -2,6 +2,7 @@ package com.schoolSystem.service.admin;
 
 import com.schoolSystem.dto.docenteDto.DocenteCreateDto;
 import com.schoolSystem.dto.docenteDto.DocenteGetDto;
+import com.schoolSystem.dto.docenteDto.DocenteUpdateDto;
 import com.schoolSystem.entities.Curso;
 import com.schoolSystem.entities.Docente;
 import com.schoolSystem.entities.Estado;
@@ -9,7 +10,8 @@ import com.schoolSystem.entities.Usuario;
 import com.schoolSystem.exception.CursoNotFoundException;
 import com.schoolSystem.exception.DocenteNotFoundException;
 import com.schoolSystem.exception.UserNotFoundException;
-import com.schoolSystem.mapper.DocenteToDocenteGetDto;
+import com.schoolSystem.mapper.docente.DocenteToDocenteGetDto;
+import com.schoolSystem.mapper.docente.DocenteUpdateDtoToDocente;
 import com.schoolSystem.repository.CursoRepository;
 import com.schoolSystem.repository.DocenteRepository;
 import com.schoolSystem.repository.UsuarioRepository;
@@ -27,12 +29,18 @@ public class AdminDocenteService {
     private final UsuarioRepository usuarioRepository;
     private final DocenteRepository docenteRepository;
     private final DocenteToDocenteGetDto docenteGetMapper;
+    private final DocenteUpdateDtoToDocente docenteUpdateMapper;
 
-    public AdminDocenteService(CursoRepository cursoRepository, UsuarioRepository usuarioRepository, DocenteRepository docenteRepository, DocenteToDocenteGetDto docenteGetMapper) {
+    public AdminDocenteService(CursoRepository cursoRepository,
+                               UsuarioRepository usuarioRepository,
+                               DocenteRepository docenteRepository,
+                               DocenteToDocenteGetDto docenteGetMapper,
+                               DocenteUpdateDtoToDocente docenteUpdateMapper) {
         this.cursoRepository = cursoRepository;
         this.usuarioRepository = usuarioRepository;
         this.docenteRepository = docenteRepository;
         this.docenteGetMapper = docenteGetMapper;
+        this.docenteUpdateMapper = docenteUpdateMapper;
     }
 
     @Transactional
@@ -74,4 +82,21 @@ public class AdminDocenteService {
                 .findById(id).map(docenteGetMapper::map)
                 .orElseThrow(() -> new DocenteNotFoundException("El docente no existe. Compruebe los datos."));
     }
+
+    private Docente getEntityTeacher(Long id){
+        return docenteRepository
+                .findById(id)
+                .orElseThrow(() -> new DocenteNotFoundException("El docente no existe. Compruebe los datos"));
+    }
+
+    public void updateTeacherById(Long id, DocenteUpdateDto updateDto){
+        Curso curso = cursoRepository
+                .findByName(updateDto.curso())
+                .orElseThrow(() -> new CursoNotFoundException("El curso no existe. Compruebe los datos."));
+
+        docenteUpdateMapper.update(getEntityTeacher(id), updateDto, curso);
+
+        docenteRepository.save(getEntityTeacher(id));
+    }
+
 }
