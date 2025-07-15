@@ -1,4 +1,4 @@
-package com.schoolSystem.mapper;
+package com.schoolSystem.mapper.usuario;
 import com.schoolSystem.dto.usuarioDto.UsuarioGetDto;
 import com.schoolSystem.entities.Usuario;
 import com.schoolSystem.mapper.mapperInterfaces.IMapper;
