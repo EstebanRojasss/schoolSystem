@@ -1,4 +1,10 @@
 package com.schoolSystem.dto.estudianteDto;
 
-public class EstudianteGetDto {
+import java.util.Set;
+
+public record EstudianteGetDto(String nombre,
+                               String apellido,
+                               String numeroDocumento,
+                               String telefono,
+                               Set<String> cursos){
 }
