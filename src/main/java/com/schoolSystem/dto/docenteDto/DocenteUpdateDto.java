@@ -1,4 +1,7 @@
 package com.schoolSystem.dto.docenteDto;
 
-public class DocenteUpdateDto {
+public record DocenteUpdateDto(String nombre,
+                               String apellido,
+                               String numeroDocumento,
+                               String curso) {
 }
