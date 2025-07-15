@@ -1,5 +1,7 @@
-package com.schoolSystem.mapper;
+package com.schoolSystem.mapper.mapperInterfaces;
 
-public interface IUpdate<I, O> {
-     O updated(I toUpdate );
+import com.schoolSystem.entities.Curso;
+
+public interface IUpdate<Entity, Input> {
+      void update(Entity updated, Input input, Curso curso);
 }
