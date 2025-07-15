@@ -1,4 +1,4 @@
-package com.schoolSystem.service;
+package com.schoolSystem.service.user;
 
 import com.schoolSystem.dto.cursoDto.CursoGetDto;
 import com.schoolSystem.entities.Calificacion;
