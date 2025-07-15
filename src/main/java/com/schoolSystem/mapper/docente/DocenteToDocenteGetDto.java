@@ -1,4 +1,4 @@
-package com.schoolSystem.mapper;
+package com.schoolSystem.mapper.docente;
 
 import com.schoolSystem.dto.docenteDto.DocenteGetDto;
 import com.schoolSystem.entities.Docente;
