@@ -1,6 +1,6 @@
 package com.schoolSystem.service;
 
-import com.schoolSystem.dto.CursoGetDto;
+import com.schoolSystem.dto.cursoDto.CursoGetDto;
 import com.schoolSystem.entities.Calificacion;
 import com.schoolSystem.entities.Curso;
 import com.schoolSystem.entities.Docente;
@@ -8,7 +8,7 @@ import com.schoolSystem.entities.Estudiante;
 import com.schoolSystem.exception.CursoNotFoundException;
 import com.schoolSystem.exception.DocenteNotFoundException;
 import com.schoolSystem.exception.EstudianteNotFoundException;
-import com.schoolSystem.mapper.CursoToCursoGetDto;
+import com.schoolSystem.mapper.curso.CursoToCursoGetDto;
 import com.schoolSystem.repository.CalificacionRepository;
 import com.schoolSystem.repository.DocenteRepository;
 import com.schoolSystem.repository.EstudianteRepository;
