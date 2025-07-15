@@ -1,7 +1,7 @@
-package com.schoolSystem.controllers;
+package com.schoolSystem.controllers.user;
 
-import com.schoolSystem.dto.CursoGetDto;
-import com.schoolSystem.service.DocenteService;
+import com.schoolSystem.dto.cursoDto.CursoGetDto;
+import com.schoolSystem.service.user.DocenteService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -9,7 +9,7 @@ import java.util.Set;
 
 @RestController
 @RequestMapping("/users")
-public class UsuarioController {
+public class qUsuarioController {
 
     private final DocenteService docenteService;
 
