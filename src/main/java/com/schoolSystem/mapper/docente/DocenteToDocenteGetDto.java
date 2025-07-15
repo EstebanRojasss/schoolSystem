@@ -3,7 +3,9 @@ package com.schoolSystem.mapper.docente;
 import com.schoolSystem.dto.docenteDto.DocenteGetDto;
 import com.schoolSystem.entities.Docente;
 import com.schoolSystem.mapper.mapperInterfaces.IMapper;
+import org.springframework.stereotype.Component;
 
+@Component
 public class DocenteToDocenteGetDto implements IMapper<Docente, DocenteGetDto> {
 
     @Override

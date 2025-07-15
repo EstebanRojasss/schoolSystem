@@ -4,7 +4,9 @@ import com.schoolSystem.dto.docenteDto.DocenteUpdateDto;
 import com.schoolSystem.entities.Curso;
 import com.schoolSystem.entities.Docente;
 import com.schoolSystem.mapper.mapperInterfaces.IUpdate;
+import org.springframework.stereotype.Component;
 
+@Component
 public class DocenteUpdateDtoToDocente implements IUpdate<Docente, DocenteUpdateDto> {
 
     @Override
