@@ -1,15 +1,13 @@
-package com.schoolSystem.controllers;
+package com.schoolSystem.controllers.admin;
 
 import com.schoolSystem.dto.docenteDto.DocenteCreateDto;
 import com.schoolSystem.dto.docenteDto.DocenteGetDto;
 import com.schoolSystem.dto.docenteDto.DocenteUpdateDto;
-import com.schoolSystem.entities.Docente;
 import com.schoolSystem.service.admin.AdminDocenteService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
 import java.util.Set;
 
 @RestController

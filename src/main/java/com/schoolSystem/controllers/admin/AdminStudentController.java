@@ -1,4 +1,4 @@
-package com.schoolSystem.controllers;
+package com.schoolSystem.controllers.admin;
 
 import com.schoolSystem.dto.estudianteDto.EstudianteCreateDto;
 import com.schoolSystem.dto.estudianteDto.EstudianteGetDto;
