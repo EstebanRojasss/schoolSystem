@@ -1,4 +1,4 @@
-package com.schoolSystem.dto;
+package com.schoolSystem.dto.cursoDto;
 
 public record CursoGetDto (String nombreCurso, Short creditos){
 

@@ -1,6 +1,6 @@
-package com.schoolSystem.mapper;
+package com.schoolSystem.mapper.curso;
 
-import com.schoolSystem.dto.CursoGetDto;
+import com.schoolSystem.dto.cursoDto.CursoGetDto;
 import com.schoolSystem.entities.Curso;
 import com.schoolSystem.mapper.mapperInterfaces.IMapper;
 import org.springframework.stereotype.Component;
