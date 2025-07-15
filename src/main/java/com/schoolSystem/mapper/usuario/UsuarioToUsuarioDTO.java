@@ -1,6 +1,7 @@
 package com.schoolSystem.mapper;
 import com.schoolSystem.dto.usuarioDto.UsuarioGetDto;
 import com.schoolSystem.entities.Usuario;
+import com.schoolSystem.mapper.mapperInterfaces.IMapper;
 import org.springframework.stereotype.Component;
 
 @Component
