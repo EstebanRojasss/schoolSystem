@@ -1,12 +1,17 @@
 package com.schoolSystem.service.admin;
 
 import com.schoolSystem.dto.estudianteDto.EstudianteCreateDto;
+import com.schoolSystem.dto.estudianteDto.EstudianteGetDto;
+import com.schoolSystem.dto.estudianteDto.EstudianteUpdateDto;
 import com.schoolSystem.entities.Curso;
 import com.schoolSystem.entities.Estado;
 import com.schoolSystem.entities.Estudiante;
 import com.schoolSystem.entities.Usuario;
 import com.schoolSystem.exception.CursoNotFoundException;
+import com.schoolSystem.exception.EstudianteNotFoundException;
 import com.schoolSystem.exception.UserNotFoundException;
+import com.schoolSystem.mapper.estudiante.EstudianteToEstudianteGetDto;
+import com.schoolSystem.mapper.estudiante.EstudianteUpdateDtoToEstudiante;
 import com.schoolSystem.repository.CursoRepository;
 import com.schoolSystem.repository.EstudianteRepository;
 import com.schoolSystem.repository.UsuarioRepository;
@@ -15,6 +20,10 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDate;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 @Service
 public class AdminEstudianteService {
@@ -22,17 +31,21 @@ public class AdminEstudianteService {
     private final EstudianteRepository estudianteRepository;
     private final CursoRepository cursoRepository;
     private final UsuarioRepository usuarioRepository;
+    private final EstudianteUpdateDtoToEstudiante updateDtoMapper;
+    private final EstudianteToEstudianteGetDto getDtoMapper;
 
     public AdminEstudianteService(EstudianteRepository estudianteRepository,
                                   CursoRepository cursoRepository,
-                                  UsuarioRepository usuarioRepository) {
+                                  UsuarioRepository usuarioRepository, EstudianteUpdateDtoToEstudiante updateDtoMapper, EstudianteToEstudianteGetDto getDtoMapper) {
         this.estudianteRepository = estudianteRepository;
         this.cursoRepository = cursoRepository;
         this.usuarioRepository = usuarioRepository;
+        this.updateDtoMapper = updateDtoMapper;
+        this.getDtoMapper = getDtoMapper;
     }
 
     @Transactional
-    public void crearEstudiante(EstudianteCreateDto dto) {
+    public void createStudent(EstudianteCreateDto dto) {
         Estudiante estudiante = new Estudiante();
         estudiante.setNombre(dto.nombre());
         estudiante.setApellido(dto.apellido());
@@ -58,4 +71,31 @@ public class AdminEstudianteService {
         estudiante.setEstado(Estado.ACTIVO);
         estudianteRepository.save(estudiante);
     }
+
+    public void updateStudentById(Long id, EstudianteUpdateDto updateDto) {
+        Estudiante estudiante = estudianteRepository
+                .findById(id)
+                .orElseThrow(() -> new EstudianteNotFoundException("El estudiante no existe. Compruebe los datos."));
+
+        updateDtoMapper.update(estudiante, updateDto);
+
+        estudianteRepository.save(estudiante);
+    }
+
+    public Set<EstudianteGetDto> getAllStudents() {
+       return estudianteRepository
+               .findAll()
+               .stream()
+               .map(getDtoMapper::map)
+               .collect(Collectors.toSet());
+    }
+
+    private void verifyExistentCurse(Set<String> cursos) {
+        for (String curso : cursos) {
+            cursoRepository
+                    .findByName(curso)
+                    .orElseThrow(() -> new CursoNotFoundException("El curso no existe."));
+        }
+    }
+
 }
