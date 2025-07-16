@@ -91,7 +91,7 @@ public class AdminDocenteService {
 
     public void updateTeacherById(Long id, DocenteUpdateDto updateDto){
         Curso curso = cursoRepository
-                .findByName(updateDto.curso())
+                .findByNombreCurso(updateDto.curso())
                 .orElseThrow(() -> new CursoNotFoundException("El curso no existe. Compruebe los datos."));
 
         docenteUpdateMapper.update(getEntityTeacher(id), updateDto, curso);

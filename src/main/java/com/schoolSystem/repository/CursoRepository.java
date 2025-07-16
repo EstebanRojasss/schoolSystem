@@ -7,5 +7,5 @@ import org.springframework.stereotype.Repository;
 import java.util.Optional;
 @Repository
 public interface CursoRepository extends JpaRepository<Curso, Long> {
-    Optional<Curso> findByName(String nombre);
+    Optional<Curso> findByNombreCurso(String nombre);
 }
