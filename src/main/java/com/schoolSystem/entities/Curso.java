@@ -8,7 +8,7 @@ public class Curso {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private  Long id;
-    @Column(name = "nombre_curso")
+    @Column(name = "name")
     private String nombreCurso;
     @Column(name = "creditos")
     private Short creditos;
