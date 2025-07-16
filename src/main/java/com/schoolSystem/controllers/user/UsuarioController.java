@@ -9,7 +9,7 @@ import java.util.Set;
 
 @RestController
 @RequestMapping("/users")
-public class qUsuarioController {
+public class UsuarioController {
 
     private final DocenteService docenteService;
 
