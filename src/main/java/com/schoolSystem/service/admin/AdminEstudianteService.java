@@ -90,12 +90,4 @@ public class AdminEstudianteService {
                .collect(Collectors.toSet());
     }
 
-    private void verifyExistentCurse(Set<String> cursos) {
-        for (String curso : cursos) {
-            cursoRepository
-                    .findByName(curso)
-                    .orElseThrow(() -> new CursoNotFoundException("El curso no existe."));
-        }
-    }
-
 }
