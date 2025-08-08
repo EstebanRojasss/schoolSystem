@@ -41,6 +41,7 @@ public class AdminStudentController {
     }
 
     @DeleteMapping("/student{id}")
+    @Operation(description = "Endpoint encargado de eliminar estudiante por Id")
     public ResponseEntity<Void>deleteStudentById(@PathVariable Long id){
         estudianteService.deleteStudentById(id);
         return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
