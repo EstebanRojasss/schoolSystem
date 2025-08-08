@@ -26,14 +26,16 @@ public class AdminController {
     }
 
     @PostMapping("/user")
-    @Operation(description = "Endpoint encargado de crear nuevos Usuarios")
+    @Operation(description = "Endpoint encargado de crear nuevos Usuarios",
+    summary = "Crea nuevo usuario.")
     public ResponseEntity<Void> createUser(@RequestBody UsuarioCreateDto usuarioCreateDto){
         adminUsuarioService.createUser(usuarioCreateDto);
         return ResponseEntity.ok().build();
     }
 
     @GetMapping("/user")
-    @Operation(description = "Endpoint encargado de listar todos los usuarios")
+    @Operation(description = "Endpoint encargado de listar todos los usuarios",
+    summary = "Lista todos los usuarios disponibles.")
     public ResponseEntity<Set<UsuarioGetDto>>getAllUsers(){
         return ResponseEntity.ok(adminUsuarioService.getAllUsers().
                 stream().
@@ -42,21 +44,24 @@ public class AdminController {
     }
 
     @DeleteMapping("/user")
-    @Operation(description = "Endpoint encargado de borrar usuario por email.")
+    @Operation(description = "Endpoint encargado de borrar usuario por email.",
+    summary = "Borra usuario de acuerdo al email ingresado.")
     public ResponseEntity<String> deleteUserByEmail(String email){
         adminUsuarioService.deleteUserByEmail(email);
         return ResponseEntity.ok().build();
     }
 
     @DeleteMapping("user/{id}")
-    @Operation(description = "Endpoint de borrar usuario por Id")
+    @Operation(description = "Endpoint de borrar usuario por Id",
+    summary = "Borra usuario de acuerdo al Id ingresado.")
     public ResponseEntity<String> deleteUserById(@PathVariable("id") Long id){
         adminUsuarioService.deleteUserById(id);
         return ResponseEntity.ok().build();
     }
 
     @PutMapping("user/{id}")
-    @Operation(description = "Endpoint encargado de actualizar usuario por Id")
+    @Operation(description = "Endpoint encargado de actualizar usuario por Id,",
+    summary = "Actualiza usuario de acuerdo al Id ingresado.")
     public ResponseEntity<String> updateUserById(@PathVariable("id") Long id, @RequestBody UsuarioUpdateDto usuarioUpdateDto){
         adminUsuarioService.updateById(id, usuarioUpdateDto);
         return ResponseEntity.ok().build();
