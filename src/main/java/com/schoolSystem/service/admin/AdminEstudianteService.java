@@ -90,6 +90,14 @@ public class AdminEstudianteService {
                .collect(Collectors.toSet());
     }
 
+    public void deleteStudentById(Long id){
+        Estudiante estudiante = estudianteRepository
+                .findById(id)
+                .orElseThrow(() -> new EstudianteNotFoundException("El estudiante no existe. Compruebe los datos."));
+
+        estudianteRepository.deleteById(id);
+    }
+
 
 
 }
