@@ -21,27 +21,31 @@ public class AdminStudentController {
     }
 
     @PostMapping("/student")
-    @Operation(description = "Endpoint encargado de crear nuevo estudiante")
+    @Operation(description = "Endpoint encargado de crear nuevo estudiante",
+    summary = "Crea nuevo usuario.")
     public ResponseEntity<String> createStudent(@RequestBody EstudianteCreateDto estudianteCreateDto){
         estudianteService.createStudent(estudianteCreateDto);
         return ResponseEntity.status(HttpStatus.CREATED).body("Estudiante creado con éxito.");
     }
 
     @GetMapping("/students")
-    @Operation(description = "Endpoint encargado de listar todos los estudiantes")
+    @Operation(description = "Endpoint encargado de listar todos los estudiantes",
+    summary = "Lista todos los estudiante disponibles.")
     public ResponseEntity<Set<EstudianteGetDto>>getAllStudents(){
         return ResponseEntity.ok(estudianteService.getAllStudents());
     }
 
     @PutMapping("/student/{id}")
-    @Operation(description = "Endpoint encargado de actualizar estudiante por Id")
+    @Operation(description = "Endpoint encargado de actualizar estudiante por Id",
+    summary = "Actualiza un estudiante de acuerdo al Id ingresado.")
     public ResponseEntity<String>updateStudentById(@PathVariable Long id, @RequestBody EstudianteUpdateDto updateDto){
         estudianteService.updateStudentById(id, updateDto);
         return ResponseEntity.status(HttpStatus.ACCEPTED).body("Estudiante actualizado con éxito");
     }
 
     @DeleteMapping("/student{id}")
-    @Operation(description = "Endpoint encargado de eliminar estudiante por Id")
+    @Operation(description = "Endpoint encargado de eliminar estudiante por Id",
+    summary = "Borra a estudiante de acuerdo al Id ingresado.")
     public ResponseEntity<Void>deleteStudentById(@PathVariable Long id){
         estudianteService.deleteStudentById(id);
         return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
