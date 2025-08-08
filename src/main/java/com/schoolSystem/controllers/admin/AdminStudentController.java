@@ -40,6 +40,9 @@ public class AdminStudentController {
         return ResponseEntity.status(HttpStatus.ACCEPTED).body("Estudiante actualizado con éxito");
     }
 
-
-    
+    @DeleteMapping("/student{id}")
+    public ResponseEntity<Void>deleteStudentById(@PathVariable Long id){
+        estudianteService.deleteStudentById(id);
+        return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
+    }
 }
