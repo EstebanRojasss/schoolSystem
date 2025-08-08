@@ -71,7 +71,7 @@ public class AdminEstudianteService {
         estudiante.setEstado(Estado.ACTIVO);
         estudianteRepository.save(estudiante);
     }
-
+    @Transactional
     public void updateStudentById(Long id, EstudianteUpdateDto updateDto) {
         Estudiante estudiante = estudianteRepository
                 .findById(id)
@@ -89,5 +89,7 @@ public class AdminEstudianteService {
                .map(getDtoMapper::map)
                .collect(Collectors.toSet());
     }
+
+
 
 }
